@@ -9,8 +9,6 @@ export const createUser = async (req, res) => {
             ...req.body
         }
 
-        console.log(userToCreate)
-
         const user = await User.create(userToCreate)
         res.status(201).json(user) 
     } catch(err) {
@@ -56,4 +54,14 @@ export const searchByPalavraChave = async (req, res) => {
     } }
   });
   res.status(200).json(users)
+}
+
+export const loginUsuario = async (req, res) => {
+  const users = await User.findAll({
+    where: { username: req.body.username, password: req.body.password }
+  });
+  if (users.length === 1)
+    res.status(200).json(users[0])
+  else
+    res.status(500).json("Usuário não encontrado !");
 }

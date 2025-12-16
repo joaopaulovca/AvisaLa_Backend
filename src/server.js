@@ -16,7 +16,7 @@ sequelize.authenticate().then(() => {
   console.log("BD conectado")
   app.listen(3000, () => console.log("Servidor Executando"))
 }).catch((err) => {
-    console.err(err)
+    //console.err(err)
 })
 
 
