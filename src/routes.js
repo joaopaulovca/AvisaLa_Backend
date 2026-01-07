@@ -3,12 +3,15 @@ import { createUser, getAllUsers, deleteUser, getUserByID, updateUser, searchByP
 
 const router = express.Router()
 
+//Usuarios
 router.post('/cadastro', createUser)
-router.get('/todos', getAllUsers)
+router.get('/', getAllUsers)
 router.delete('/deletar/:id', deleteUser)
 router.get('/getById/:id', getUserByID)
 router.put('/updateUser/:id', updateUser)
 router.get('/search', searchByPalavraChave)
 router.get('/loginUsuario', loginUsuario)
+
+//Posts
 
 export default router
