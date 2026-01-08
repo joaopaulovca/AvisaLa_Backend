@@ -13,7 +13,7 @@ const sequelize = new Sequelize(config)
 User.init(sequelize)
 Post.init(sequelize)
 
-app.use('/usuarios', userRoutes)
+app.use('/users', userRoutes)
 app.use('/posts', postRoutes)
 
 sequelize.authenticate().then(() => {

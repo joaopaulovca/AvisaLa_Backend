@@ -29,8 +29,14 @@ export const deleteUser = async (req, res) => {
 } 
 
 export const getUserByID = async (req, res) => {
-  const user = await User.findByPk(req.params.id)
-  res.status(200).json(user)
+  if (req.params.id === 'search') {
+    searchByPalavraChave(req, res);
+  } if (req.params.id === 'loginUsuario') {
+    loginUsuario(req, res);
+  } else {
+    const user = await User.findByPk(req.params.id);
+    res.status(200).json(user);
+  }
 } 
 
 export const updateUser = async (req, res) => {

@@ -4,11 +4,11 @@ import { createUser, getAllUsers, deleteUser, getUserByID, updateUser, searchByP
 const router = express.Router()
 
 //Usuarios
-router.post('/cadastro', createUser)
+router.post('/', createUser)
 router.get('/', getAllUsers)
-router.delete('/deletar/:id', deleteUser)
-router.get('/getById/:id', getUserByID)
-router.put('/updateUser/:id', updateUser)
+router.delete('/:id', deleteUser)
+router.get('/:id', getUserByID)
+router.put('/:id', updateUser)
 router.get('/search', searchByPalavraChave)
 router.get('/loginUsuario', loginUsuario)
 
