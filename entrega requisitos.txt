@@ -1,0 +1,16 @@
+-> Código Fonte - repositório GitHub com:
+- código do projeto 
+- Dockerfiles 
+- scripts de CI/CD.
+
+-> Apresentação Gravada - demonstração em vídeo com:
+- funcionamento da aplicação
+- detalhes técnicos de implementação.
+
+-> Documentação: documento descrevendo:
+- a arquitetura do sistema
+- uso da aplicação
+- relato de experiências e desafios enfrentados pela equipe durante o desenvolvimento
+(arquivo de texto da preferência do grupo ou no readme do github)
+
+

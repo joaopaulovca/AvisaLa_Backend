@@ -1,10 +1,10 @@
 export default {
     dialect: 'postgres',
-    host: 'localhost',
+    host: '172.17.0.2',
     username: 'postgres',
     password: 'postgres',
     database: 'avisaladb',
-    port: 2222,
+    port: 5432,
     define: {
         timestamp: true,
         underscored: true,
