@@ -20,5 +20,5 @@ jobs:
       - name: Build and Push Docker Image 
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker build -t $DOCKER_USERNAME/avisa_la:latest --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} .
+          docker build -t $DOCKER_USERNAME/avisa_la:latest .
           docker push $DOCKER_USERNAME/avisa_la:latest
