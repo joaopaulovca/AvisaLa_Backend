@@ -20,5 +20,5 @@ jobs:
       - name: Build and Push Docker Image 
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker build -t $DOCKER_USERNAME/avisa_la:latest .
-          docker push $DOCKER_USERNAME/avisa_la:latest
+          docker build -t $DOCKER_USERNAME/avisala_backend-node-app:latest .
+          docker push $DOCKER_USERNAME/avisala_backend-node-app:latest

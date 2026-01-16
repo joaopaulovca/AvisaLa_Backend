@@ -1,23 +1,34 @@
 version: '3.8'
 
 services:
- 
-  db:
-    image: postgres:latest
-    container_name: avisala_db
+  postgres-db:
+    image: postgres:16-alpine # Usar uma imagem oficial e leve do Postgres
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: avisaladb
     ports:
-      - "2222:5432" 
+      - "5432:5432" # Mapeia a porta do container para a porta do host (opcional, mas útil para acesso local com ferramentas como pgAdmin)
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Persiste os dados do banco de dados
 
-  app:
-    build: .
-    container_name: avisala_app
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     ports:
       - "3000:3000"
+    environment:
+      # Variáveis de ambiente para o Node.js
+      DB_HOST: postgres-db # Importante: Use o nome do serviço do Docker Compose como host
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: avisaladb
+      DB_PORT: 5432
     depends_on:
-      - db
-  
-    network_mode: "host"
+      - postgres-db # Garante que o banco de dados inicie antes da aplicação Node
+
+volumes:
+  pgdata:

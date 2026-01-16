@@ -9,7 +9,18 @@ import postRoutes from './postRoutes.js'
 const app = express()
 app.use(express.json())
 
-const sequelize = new Sequelize(config)
+//const sequelize = new Sequelize(config)
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres'
+  }
+)
 
 User.init(sequelize)
 Post.init(sequelize)
@@ -19,11 +30,7 @@ app.use('/posts', postRoutes)
 
 sequelize.authenticate().then(() => {
   console.log("BD conectado")
+  app.listen(3000, () => console.log("Servidor Executando"))
 }).catch((err) => {
     console.log(err);
 })
-
-app.listen(3000, () => console.log("Servidor Executando"))
-
-
-
