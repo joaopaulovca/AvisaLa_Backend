@@ -9,18 +9,13 @@ import postRoutes from './postRoutes.js'
 const app = express()
 app.use(express.json())
 
-//const sequelize = new Sequelize(config)
+config.host = process.env.DB_HOST;
+config.username =  process.env.DB_USER;
+config.password = process.env.DB_PASS,
+config.database = process.env.DB_NAME;
+config.port = process.env.DB_PORT;
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres'
-  }
-)
+const sequelize = new Sequelize(config)
 
 User.init(sequelize)
 Post.init(sequelize)
