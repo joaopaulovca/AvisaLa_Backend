@@ -1,3 +1,5 @@
+//Node 20
+//Postgres 16
 import express from 'express'
 import User from './models/User.js'
 import Post from './models/Post.js'

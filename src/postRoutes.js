@@ -1,5 +1,5 @@
 import express from 'express'
-import { createPost, getAllPosts, deletePost, getPostByID, updatePost, searchDescriptionByKeyword, searchByCategory } from './controllers/postController.js'
+import { createPost, getAllPosts, deletePost, getPostByID, updatePost, searchDescriptionByKeyword, searchByCategory, searchByDescriptionAndCategory } from './controllers/postController.js'
 
 const router = express.Router()
 
@@ -9,7 +9,9 @@ router.delete('/:id', deletePost)
 router.get('/', getAllPosts)
 router.get('/:id', getPostByID);
 
-router.get('/search', searchDescriptionByKeyword)
+router.get('/searchByKeyword', searchDescriptionByKeyword)
+router.get('/searchByCategory', searchByCategory)
+router.get('/searchByKeywordAndCategory', searchByDescriptionAndCategory)
 
 //Posts
 

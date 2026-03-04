@@ -29,8 +29,12 @@ export const deletePost = async (req, res) => {
 } 
 
 export const getPostByID = async (req, res) => {
-  if (req.params.id === 'search') {
+  if (req.params.id === 'searchByKeyword') {
     searchDescriptionByKeyword(req, res)
+  } else if (req.params.id === 'searchByKeywordAndCategory') {
+    searchByDescriptionAndCategory(req, res)
+  } else if (req.params.id === 'searchByCategory') {
+    searchByCategory(req, res)
   } else {
     const post = await Post.findByPk(req.params.id)
     res.status(200).json(post)
@@ -54,6 +58,19 @@ export const updatePost = async (req, res) => {
 export const searchDescriptionByKeyword = async (req, res) => {
   const posts = await Post.findAll({
     where: { 
+      [Op.or]: { 
+        description: {[Op.like]: "%" + req.body.text + "%"}, 
+        topic: {[Op.like]: "%" + req.body.text + "%"} 
+      }
+    }
+  });
+  res.status(200).json(posts)
+}
+
+export const searchByDescriptionAndCategory = async (req, res) => {
+  const posts = await Post.findAll({
+    where: { 
+      category: req.body.category,
       [Op.or]: { 
         description: {[Op.like]: "%" + req.body.text + "%"}, 
         topic: {[Op.like]: "%" + req.body.text + "%"} 
