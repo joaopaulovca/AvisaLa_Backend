@@ -70,7 +70,7 @@ export const searchDescriptionByKeyword = async (req, res) => {
 export const searchByDescriptionAndCategory = async (req, res) => {
   const posts = await Post.findAll({
     where: { 
-      category: req.body.category,
+      category: {[Op.like]: "%" + req.body.category + "%"},
       [Op.or]: { 
         description: {[Op.like]: "%" + req.body.text + "%"}, 
         topic: {[Op.like]: "%" + req.body.text + "%"} 
