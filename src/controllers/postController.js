@@ -59,30 +59,34 @@ export const searchDescriptionByKeyword = async (req, res) => {
   const posts = await Post.findAll({
     where: { 
       [Op.or]: { 
-        description: {[Op.like]: "%" + req.body.text + "%"}, 
-        topic: {[Op.like]: "%" + req.body.text + "%"} 
+        description: {[Op.like]: "%" + req.params.description + "%"}, 
+        topic: {[Op.like]: "%" + req.params.topic + "%"} 
       }
     }
   });
   res.status(200).json(posts)
 }
 
-export const searchByDescriptionAndCategory = async (req, res) => {
-  const posts = await Post.findAll({
-    where: { 
-      category: {[Op.like]: "%" + req.body.category + "%"},
-      [Op.or]: { 
-        description: {[Op.like]: "%" + req.body.text + "%"}, 
-        topic: {[Op.like]: "%" + req.body.text + "%"} 
+export const searchByTopicAndCategory = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      where: {
+        category: { [Op.eq]: req.params.category },
+        [Op.or]: { topic: { [Op.like]: "%" + req.params.topic + "%" } },
+        [Op.or]: { description: { [Op.like]: "%" + req.params.description + "%" } }
       }
-    }
-  });
-  res.status(200).json(posts)
-}
+    })
+
+    res.status(200).json(posts)
+
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}  
 
 export const searchByCategory = async (req, res) => {
   const posts = await Post.findAll({
-    where: { category: req.body.category }
+    where: { category: req.params.category }
   });
   res.status(200).json(posts);
 }

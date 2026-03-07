@@ -7,9 +7,16 @@ import Sequelize from 'sequelize'
 import config from './config/database.js'
 import userRoutes from './routes.js'
 import postRoutes from './postRoutes.js'
+import cors from 'cors'
 
 const app = express()
 app.use(express.json())
+app.use(cors())
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // Substitua * pelo seu domínio em produção
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 config.host = process.env.DB_HOST;
 config.username =  process.env.DB_USER;
