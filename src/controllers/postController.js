@@ -1,6 +1,7 @@
 import Post from "../models/Post.js"
+import User from "../models/User.js"
 import crypto from 'node:crypto'
-import { Sequelize, DataTypes, Op } from 'sequelize'
+import { Sequelize, DataTypes, Op, Model } from 'sequelize'
 
 export const createPost = async (req, res) => {
     try {
@@ -19,6 +20,7 @@ export const createPost = async (req, res) => {
 export const getAllPosts = async (req, res) => {
   const posts = await Post.findAll(
     {
+      include: [{model: User}],  
       order: [
         ['created_at', 'DESC'] 
       ]
@@ -63,6 +65,7 @@ export const updatePost = async (req, res) => {
 
 export const searchDescriptionByKeyword = async (req, res) => {
   const posts = await Post.findAll({
+    include: [{model: User}],  
     where: { 
       [Op.or]: { 
         description: {[Op.like]: "%" + req.params.description + "%"}, 
@@ -76,11 +79,16 @@ export const searchDescriptionByKeyword = async (req, res) => {
 export const searchByTopicAndCategory = async (req, res) => {
   try {
     const posts = await Post.findAll({
+      include: [{model: User}],      
       where: {
         category: { [Op.eq]: req.params.category },
         [Op.or]: { topic: { [Op.like]: "%" + req.params.topic + "%" } },
         [Op.or]: { description: { [Op.like]: "%" + req.params.description + "%" } }
       }
+    })
+
+    posts.forEach((post) => {
+      post.user_id += '-' + post.autor.name;
     })
 
     res.status(200).json(posts)
@@ -92,6 +100,7 @@ export const searchByTopicAndCategory = async (req, res) => {
 
 export const searchByCategory = async (req, res) => {
   const posts = await Post.findAll({
+    include: [{model: User}],  
     where: { category: req.params.category }
   });
   res.status(200).json(posts);

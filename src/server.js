@@ -32,6 +32,9 @@ const sequelize = new Sequelize(config)
 User.init(sequelize)
 Post.init(sequelize)
 
+Post.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Post, { foreignKey: 'id' });
+
 app.use('/users', userRoutes)
 app.use('/posts', postRoutes)
 

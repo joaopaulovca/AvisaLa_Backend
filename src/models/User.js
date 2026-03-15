@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize'
+import Post from "../models/Post.js"
 
 class User extends Model {
     static init(sequelize) {
