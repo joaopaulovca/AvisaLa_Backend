@@ -3,6 +3,10 @@ import crypto from 'node:crypto'
 import { Sequelize, DataTypes, Op } from 'sequelize'
 
 export const createUser = async (req, res) => {
+  if (req.params.id === 'loginUsuario') {
+    loginUsuario(req, res);
+    return;
+  }
     try {
         const userToCreate = {
             id: crypto.randomUUID(),

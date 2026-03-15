@@ -17,7 +17,13 @@ export const createPost = async (req, res) => {
 } 
 
 export const getAllPosts = async (req, res) => {
-  const posts = await Post.findAll()
+  const posts = await Post.findAll(
+    {
+      order: [
+        ['created_at', 'DESC'] 
+      ]
+    }
+  )
   res.status(200).json(posts)
 } 
 

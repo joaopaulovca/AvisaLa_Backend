@@ -10,7 +10,7 @@ router.delete('/:id', deleteUser)
 router.get('/:id', getUserByID)
 router.put('/:id', updateUser)
 router.get('/search', searchByPalavraChave)
-router.get('/loginUsuario', loginUsuario)
+router.post('/loginUsuario', loginUsuario)
 
 //Posts
 
