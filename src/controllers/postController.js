@@ -4,18 +4,18 @@ import crypto from 'node:crypto'
 import { Sequelize, DataTypes, Op, Model } from 'sequelize'
 
 export const createPost = async (req, res) => {
-    try {
-        const postToCreate = {
-            id: crypto.randomUUID(),
-            ...req.body
-        }
-
-        const post = await Post.create(postToCreate)
-        res.status(201).json(post) 
-    } catch(err) {
-        res.status(500).json(err)
+  try {
+    const postToCreate = {
+      id: crypto.randomUUID(),
+      ...req.body
     }
-} 
+
+    const post = await Post.create(postToCreate)
+    res.status(201).json(post)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
 
 export const getAllPosts = async (req, res) => {
   const posts = await Post.findAll(
@@ -30,11 +30,11 @@ export const getAllPosts = async (req, res) => {
 } 
 
 export const deletePost = async (req, res) => {
-    const post = await Post.destroy({
-        where: {id: req.params.id}
-    })
-    res.status(200).json(post)
-} 
+  const post = await Post.destroy({
+    where: { id: req.params.id }
+  })
+  res.status(200).json(post)
+}
 
 export const getPostByID = async (req, res) => {
   if (req.params.id === 'searchByKeyword') {
@@ -47,21 +47,23 @@ export const getPostByID = async (req, res) => {
     const post = await Post.findByPk(req.params.id)
     res.status(200).json(post)
   }
-} 
+}
 
 export const updatePost = async (req, res) => {
   const [affectedRows] = await Post.update(
-    { category: req.body.category,
-      ...req.body },
     {
-        where: {
-            id: req.params.id,
-        },
+      category: req.body.category,
+      ...req.body
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
     }
   );
   const post = await Post.findByPk(req.params.id)
   res.status(200).json(post)
-} 
+}
 
 export const searchDescriptionByKeyword = async (req, res) => {
   const posts = await Post.findAll({
@@ -79,24 +81,21 @@ export const searchDescriptionByKeyword = async (req, res) => {
 export const searchByTopicAndCategory = async (req, res) => {
   try {
     const posts = await Post.findAll({
-      include: [{model: User}],      
       where: {
         category: { [Op.eq]: req.params.category },
-        [Op.or]: { topic: { [Op.like]: "%" + req.params.topic + "%" } },
-        [Op.or]: { description: { [Op.like]: "%" + req.params.description + "%" } }
+      [Op.or]: { 
+        description: {[Op.like]: "%" + req.params.description + "%"}, 
+        topic: {[Op.like]: "%" + req.params.topic + "%"} 
       }
-    })
-
-    posts.forEach((post) => {
-      post.user_id += '-' + post.autor.name;
-    })
+    }
+  });
 
     res.status(200).json(posts)
 
   } catch (err) {
     res.status(500).json(err)
   }
-}  
+}
 
 export const searchByCategory = async (req, res) => {
   const posts = await Post.findAll({
@@ -105,3 +104,63 @@ export const searchByCategory = async (req, res) => {
   });
   res.status(200).json(posts);
 }
+
+//Professores
+export const getAllPostsByTeacher = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      include: [{model: User}],  
+      where: {
+        user_id: { [Op.eq]: req.params.user_id }
+      },
+      order: [
+        ['created_at', 'DESC']
+      ]
+    })
+    res.status(200).json(posts)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+export const searchByTeacherCategory = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      include: [{model: User}],  
+      where: {
+        user_id: { [Op.eq]: req.params.user_id },
+        category: { [Op.eq]: req.params.category }
+      },
+      order: [
+        ['created_at', 'DESC']
+      ]
+    });
+    res.status(200).json(posts);
+  } catch {
+    res.status(500).json(err)
+  }
+}
+
+export const searchByTeacherTopicAndCategory = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      include: [{model: User}],  
+      where: {
+        user_id: { [Op.eq]: req.params.user_id },
+        category: { [Op.eq]: req.params.category },
+       [Op.or]: { 
+        description: {[Op.like]: "%" + req.params.description + "%"}, 
+        topic: {[Op.like]: "%" + req.params.topic + "%"} 
+       }
+      },    
+      order: [
+        ['created_at', 'DESC']
+      ]
+    })
+
+    res.status(200).json(posts)
+
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}  
