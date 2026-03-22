@@ -16,11 +16,11 @@ module.exports = {
       },
       data_nascimento: {
         type: Sequelize.DATEONLY,
-        allowNull: false 
+        allowNull: true 
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true
       },
       updated_at: {
@@ -51,6 +51,11 @@ module.exports = {
       last_login: {
         type: Sequelize.DATE,
         allowNull: true
+      }
+      ,
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false
       }
     })
   },

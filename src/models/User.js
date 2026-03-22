@@ -12,11 +12,11 @@ class User extends Model {
                 },
                 data_nascimento: {
                     type: Sequelize.DATEONLY,
-                    allowNull: false
+                    allowNull: true
                 },
                 email: {
                     type: Sequelize.STRING,
-                    allowNull: false,
+                    allowNull: true,
                     unique: true
                 },
                 username: {
@@ -39,6 +39,10 @@ class User extends Model {
                 last_login: {
                     type: Sequelize.DATE,
                     allowNull: true
+                },
+                role: {
+                    type: Sequelize.STRING,
+                    allowNull: false
                 }
 
             }
