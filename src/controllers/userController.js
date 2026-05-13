@@ -37,6 +37,8 @@ export const getUserByID = async (req, res) => {
     searchByPalavraChave(req, res);
   } if (req.params.id === 'loginUsuario') {
     loginUsuario(req, res);
+  } if (req.params.id === 'filterUsuariosPorTipo') {
+    filterUsuariosPorTipo(req, res);
   } else {
     const user = await User.findByPk(req.params.id);
     res.status(200).json(user);
@@ -74,4 +76,11 @@ export const loginUsuario = async (req, res) => {
     res.status(200).json(users[0])
   else
     res.status(500).json("Usuário não encontrado !");
+}
+
+export const filterUsuariosPorTipo = async (req, res) => {
+  const users = await User.findAll({
+    where: { role: req.body.role }
+  });
+  res.status(200).json(users)
 }

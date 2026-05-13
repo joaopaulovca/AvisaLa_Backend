@@ -1,5 +1,5 @@
 import express from 'express'
-import { createUser, getAllUsers, deleteUser, getUserByID, updateUser, searchByPalavraChave, loginUsuario } from './controllers/userController.js'
+import { createUser, getAllUsers, deleteUser, getUserByID, updateUser, searchByPalavraChave, loginUsuario, filterUsuariosPorTipo } from './controllers/userController.js'
 
 const router = express.Router()
 
@@ -11,6 +11,7 @@ router.get('/:id', getUserByID)
 router.put('/:id', updateUser)
 router.get('/search', searchByPalavraChave)
 router.post('/loginUsuario', loginUsuario)
+router.post('/filterUsuariosPorTipo', filterUsuariosPorTipo)
 
 //Posts
 
