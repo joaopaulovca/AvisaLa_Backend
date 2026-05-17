@@ -8,6 +8,16 @@ export const createUser = async (req, res) => {
     return;
   }
     try {
+
+        const users = await User.findAll({
+          where: { username: req.body.username }
+        });
+
+        if (users.length > 0) {
+          res.status(500).json('Já existe usuário com esse login !');
+          return
+        }
+
         const userToCreate = {
             id: crypto.randomUUID(),
             ...req.body
