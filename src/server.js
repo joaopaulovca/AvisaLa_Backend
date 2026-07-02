@@ -8,6 +8,8 @@ import config from './config/database.js'
 import userRoutes from './routes.js'
 import postRoutes from './postRoutes.js'
 import cors from 'cors'
+import arquivoRoutes from './arquivoRouter.js'
+import Arquivo from './models/Arquivo.js'
 
 const app = express()
 app.use(express.json())
@@ -31,12 +33,17 @@ const sequelize = new Sequelize(config)
 
 User.init(sequelize)
 Post.init(sequelize)
+Arquivo.init(sequelize)
 
 Post.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Post, { foreignKey: 'id' });
 
+Arquivo.belongsTo(Post, { foreignKey: 'post_id' });
+Post.hasMany(Arquivo, { foreignKey: 'id' });
+
 app.use('/users', userRoutes)
 app.use('/posts', postRoutes)
+app.use('/arquivos', arquivoRoutes)
 
 sequelize.authenticate().then(() => {
   console.log("BD conectado")
